@@ -1,0 +1,4 @@
+Models/eleckast_mesh.fbx|Textures/eleckast.jpg|spec_map_here|norm_map_here|3,0x0,0x3,0|rotation_tbf|scale_here
+Models/eleckast_mesh.fbx|Textures/eleckast.jpg|spec_map_here|norm_map_here|0,0x0,0x0,0|rotation_tbf|scale_here
+Models/eleckast_mesh.fbx|Textures/eleckast.jpg|spec_map_here|norm_map_here|-3,0x0,0x-3,0|rotation_tbf|scale_here
+Models/plane.fbx|Textures/GrassTexture.png|spec_map_here|norm_map_here|0,0x0,0x0,0|rotation_tbf|scale_here
