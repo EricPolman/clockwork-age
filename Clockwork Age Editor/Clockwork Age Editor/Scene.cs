@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using System.IO;
 
-namespace Clockwork_Age
+namespace Clockwork_Age_Editor
 {
     class Scene
     {
@@ -24,6 +24,7 @@ namespace Clockwork_Age
         {
             this.name = name;
             modelManager = ModelManager.Singleton;
+            Clockwork_Age_Editor.Selector.Singleton.camera = camera;
         }
         public Scene()
         {
@@ -35,7 +36,7 @@ namespace Clockwork_Age
         {
             this.graphicsDevice = graphicsDevice;
             PlaceModels(Content);
-            camera = new Camera(new Vector3(0, 20, 40), Vector3.Forward, Vector3.Up, dimensions);
+            camera = new Camera(new Vector3(0, 0, 40), Vector3.Zero, Vector3.Up, dimensions);
             this.Content = Content;
         }
 
@@ -74,7 +75,7 @@ namespace Clockwork_Age
                 string assetName = assetProperties[0];
                 Vector3 assetPosition = new Vector3(float.Parse(strPos[0]), float.Parse(strPos[1]), float.Parse(strPos[2]));
 
-                Clockwork_Age.ModelManager.AssetInfo info;
+                Clockwork_Age_Editor.ModelManager.AssetInfo info;
                 ModelManager.g_AssetTable.TryGetValue(assetName, out info);
 
                 Model m;
@@ -90,13 +91,13 @@ namespace Clockwork_Age
 
         public void AddModel(string modelName)
         {
-            Clockwork_Age.ModelManager.AssetInfo info;
+            Clockwork_Age_Editor.ModelManager.AssetInfo info;
             ModelManager.g_AssetTable.TryGetValue(modelName, out info);
             Model m;
             ModelManager.g_modelPrototypes.TryGetValue(info.name + "_model", out m);
             Texture2D tex;
             ModelManager.g_texturePrototypes.TryGetValue(info.name + "_diffuse", out tex);
-            ModelManager.g_models.Add(new BasicModel(info.name, m, Content.Load<Effect>("Effects/Diffuse.fx"), tex, graphicsDevice, camera.position + (camera.direction * 30)));
+            ModelManager.g_models.Add(new BasicModel(info.name, m, Content.Load<Effect>("Effects/Diffuse.fx"), tex, graphicsDevice, Vector3.Zero));
         }
     }
 }

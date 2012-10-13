@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Clockwork_Age
+namespace Clockwork_Age_Editor
 {
     class BasicModel : Node
     {
@@ -20,13 +20,13 @@ namespace Clockwork_Age
 
         public BasicModel(string name, Model m, Effect effect, Texture2D tex, GraphicsDevice graphicsDevice, Vector3 position)
         {
-            this.position = position;
+            this.m_vPosition = position;
             this.name = name;
             model = m;
             texture = tex;
             this.graphicsDevice = graphicsDevice;
             worldRotation = Matrix.Identity;
-            worldTranslation = Matrix.CreateTranslation(this.position);
+            worldTranslation = Matrix.CreateTranslation(this.m_vPosition);
             worldScale = Matrix.CreateScale(1);
             this.effect = effect;
             foreach (ModelMesh mesh in model.Meshes)
@@ -38,7 +38,7 @@ namespace Clockwork_Age
             }
         }
 
-        public virtual void update(float deltaTime)
+        public override void update(float deltaTime)
         {
 
         }
@@ -54,8 +54,8 @@ namespace Clockwork_Age
                 {
                     part.Effect = effect;
                     effect.Parameters["World"].SetValue(GetWorld() * mesh.ParentBone.Transform);
-                    effect.Parameters["View"].SetValue(Camera.view);
-                    effect.Parameters["Projection"].SetValue(Camera.projection);
+                    effect.Parameters["View"].SetValue(Camera.View);
+                    effect.Parameters["Projection"].SetValue(Camera.Projection);
                     effect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(GetWorld() * mesh.ParentBone.Transform)));
                     effect.Parameters["ModelTexture"].SetValue(texture);
                 }

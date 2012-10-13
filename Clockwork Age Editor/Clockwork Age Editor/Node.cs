@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Clockwork_Age
+namespace Clockwork_Age_Editor
 {
     class Node
     {
-        public Vector3 position;
+        public Vector3 m_vPosition;
 
         public virtual void update(float deltaTime)
         {
@@ -17,12 +17,12 @@ namespace Clockwork_Age
 
         public void move(Vector3 movement)
         {
-            position += movement;
+            m_vPosition += movement;
         }
 
         public void move(float x, float y, float z)
         {
-            position += new Vector3(x, y, z);
+            m_vPosition += new Vector3(x, y, z);
         }
     }
 }

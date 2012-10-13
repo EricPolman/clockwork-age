@@ -67,21 +67,21 @@ namespace Clockwork_Age_Editor
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                Clockwork_Age.ModelManager.g_models.Clear();
+                Clockwork_Age_Editor.ModelManager.g_models.Clear();
 
-                Clockwork_Age.Scene sc = CreateScene(fileDialog.FileName);
+                Clockwork_Age_Editor.Scene sc = CreateScene(fileDialog.FileName);
                 sc.Dimensions = new Microsoft.Xna.Framework.Vector2(xnaViewControl1.Width, xnaViewControl1.Height);
                 xnaViewControl1.LoadScene(contentManager, sc);
             }
         }
 
-        private Clockwork_Age.Scene CreateScene(string fileName)
+        private Clockwork_Age_Editor.Scene CreateScene(string fileName)
         {
             //fileName = fileName.Replace("\\", "|");
             //string[] fileNameParts = fileName.Split('|');
             //string file = (fileNameParts[fileNameParts.Length - 1].Split('.'))[0];
 
-            return new Clockwork_Age.Scene(fileName);
+            return new Clockwork_Age_Editor.Scene(fileName);
         }
 
 
@@ -134,7 +134,7 @@ namespace Clockwork_Age_Editor
         private void LoadAssets()
         {
             xnaViewControl1.LoadContent(contentManager);
-            List<string> strings = Clockwork_Age.ModelManager.Singleton.ListAssetTable();
+            List<string> strings = Clockwork_Age_Editor.ModelManager.Singleton.ListAssetTable();
             foreach (string s in strings)
             {
                 listBox1.Items.Add(s);
@@ -160,7 +160,9 @@ namespace Clockwork_Age_Editor
 
         private void xnaViewControl1_Click(object sender, EventArgs e)
         {
+            listBox1.ClearSelected();
             xnaViewControl1.Focus();
+
         }
     }
 }

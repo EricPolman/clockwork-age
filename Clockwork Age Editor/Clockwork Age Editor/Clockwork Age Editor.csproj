@@ -59,12 +59,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clockwork Age\BasicModel.cs" />
-    <Compile Include="Clockwork Age\Camera.cs" />
-    <Compile Include="Clockwork Age\Game1.cs" />
-    <Compile Include="Clockwork Age\ModelManager.cs" />
-    <Compile Include="Clockwork Age\Node.cs" />
-    <Compile Include="Clockwork Age\Scene.cs" />
+    <Compile Include="BasicModel.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="Game1.cs" />
+    <Compile Include="ISelectable.cs" />
+    <Compile Include="ModelManager.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="Scene.cs" />
+    <Compile Include="Selector.cs" />
     <Compile Include="ContentBuilder.cs" />
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="Form1.cs">

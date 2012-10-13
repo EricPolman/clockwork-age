@@ -10,7 +10,7 @@ using System.IO;
 using System.Windows.Forms;
 
 
-namespace Clockwork_Age
+namespace Clockwork_Age_Editor
 {
     class ModelManager
     {
@@ -133,7 +133,7 @@ namespace Clockwork_Age
                 AssetInfo info;
                 if (g_AssetTable.TryGetValue(model.name, out info))
                 {
-                    result += info.name + "|" + (model.position.X + "x" + model.position.Y + "x" + model.position.Z) + "|||\r\n";
+                    result += info.name + "|" + (model.m_vPosition.X + "x" + model.m_vPosition.Y + "x" + model.m_vPosition.Z) + "|||\r\n";
                 }
             }
 

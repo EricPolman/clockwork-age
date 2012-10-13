@@ -20,7 +20,7 @@ namespace Clockwork_Age_Editor
 {
     class XnaViewControl : GraphicsDeviceControl
     {
-        public Clockwork_Age.Scene m_Scene;
+        public Clockwork_Age_Editor.Scene m_Scene;
         float deltaTime = 0;
         DateTime startTime, prev;
         
@@ -31,7 +31,7 @@ namespace Clockwork_Age_Editor
             Application.Idle += delegate { Invalidate(); };
             g_Width = Width;
             g_Height = Height;
-            
+
         }
 
         public override void Refresh()
@@ -39,6 +39,7 @@ namespace Clockwork_Age_Editor
             TimeSpan ts = System.DateTime.Now - startTime;
             deltaTime = (float)ts.TotalSeconds;
             startTime = System.DateTime.Now;
+            Selector.Singleton.update(deltaTime);
             UpdateScene();
             base.Refresh();
             
@@ -46,12 +47,14 @@ namespace Clockwork_Age_Editor
 
         public void LoadContent(ContentManager Content)
         {
-            Clockwork_Age.ModelManager.Singleton.graphicsDevice = GraphicsDevice;
-            Clockwork_Age.ModelManager.Singleton.LoadContent(Content);
-            LoadScene(Content, new Clockwork_Age.Scene());
-        }
+            Clockwork_Age_Editor.ModelManager.Singleton.graphicsDevice = GraphicsDevice;
+            Clockwork_Age_Editor.ModelManager.Singleton.LoadContent(Content);
 
-        public void LoadScene(ContentManager Content, Clockwork_Age.Scene scene)
+            Selector.Singleton.LoadContent(GraphicsDevice);
+            LoadScene(Content, new Clockwork_Age_Editor.Scene());
+        }
+        
+        public void LoadScene(ContentManager Content, Clockwork_Age_Editor.Scene scene)
         {
             m_Scene = scene;
             m_Scene.Dimensions = new Microsoft.Xna.Framework.Vector2(Width, Height);
@@ -70,7 +73,6 @@ namespace Clockwork_Age_Editor
 
             if(m_Scene != null)
                 m_Scene.draw();
-            // Models here and shit.
             
         }
     }
