@@ -12,11 +12,12 @@ namespace Clockwork_Age_Editor
     {
         public static Matrix View { get; protected set; }
         public static Matrix Projection { get; protected set; }
+        public Matrix m_mRotation = Matrix.Identity;
 
         public Vector3 m_vRotation = Vector3.Zero;
 
         public Vector3 m_vUp, m_vTarget;
-        public CameraMan cameraMan;
+        public CameraMan m_CameraMan;
 
         public Camera(Vector3 pos, Vector3 target, Vector3 up, Vector2 dimensions)
         {
@@ -25,21 +26,21 @@ namespace Clockwork_Age_Editor
             m_vTarget = target;
             m_vPosition = pos;
 
-            cameraMan = new CameraMan(this);
+            m_CameraMan = new CameraMan(this);
 
             CreateLookAt();
         }
 
         public override void update(float deltaTime)
         {
-            cameraMan.update(deltaTime);
+            m_CameraMan.update(deltaTime);
 
             CreateLookAt();
         }
 
         private void CreateLookAt()
         {
-            View = Matrix.CreateLookAt(m_vPosition, target, up);
+            View = Matrix.CreateLookAt(m_vPosition, m_vTarget, m_vUp);
         }
     }
 }
