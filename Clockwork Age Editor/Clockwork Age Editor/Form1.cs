@@ -12,6 +12,7 @@ using System.IO;
 using System.Reflection;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 namespace Clockwork_Age_Editor
 {
@@ -36,6 +37,15 @@ namespace Clockwork_Age_Editor
             base.OnLoad(e);
 
             LoadAssets();
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            xnaViewControl1.Width = Width - xnaViewControl1.Location.X - 30;
+            xnaViewControl1.Height = Height - xnaViewControl1.Location.Y - 50;
+            Camera.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)xnaViewControl1.Width / (float)xnaViewControl1.Height, 0.001f, 1000);
         }
 
         /// <summary>

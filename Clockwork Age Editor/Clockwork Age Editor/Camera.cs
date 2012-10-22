@@ -11,7 +11,7 @@ namespace Clockwork_Age_Editor
     class Camera : Node
     {
         public static Matrix View { get; protected set; }
-        public static Matrix Projection { get; protected set; }
+        public static Matrix Projection { get; set; }
         public Matrix m_mRotation = Matrix.Identity;
 
         public Vector3 m_vRotation = Vector3.Zero;
