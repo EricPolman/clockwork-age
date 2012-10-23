@@ -283,7 +283,7 @@ namespace Clockwork_Age_Editor
 
             directorySalt++;
 
-            buildDirectory = ModelManager.env + "build/";
+            buildDirectory = AssetManager.CONTENT_FOLDER + "build/";
 
             // Create our temporary directory.
             Directory.CreateDirectory(buildDirectory);

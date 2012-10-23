@@ -10,7 +10,7 @@ namespace Clockwork_Age_Editor
     {
         public Vector3 m_vPosition;
 
-        public virtual void update(float deltaTime)
+        public virtual void Update(float deltaTime)
         {
             
         }

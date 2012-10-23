@@ -229,8 +229,6 @@ namespace Clockwork_Asset_Builder
                 return string.Join("\n", errorLogger.Errors.ToArray());
             }
 
-           
-
             return null;
         }
 
@@ -257,7 +255,7 @@ namespace Clockwork_Asset_Builder
             {
                 foreach(string f in Directory.GetFiles(directory))
                 {
-                    string fShort = f.Replace(buildDirectory + "bin/content/", "");
+                    string fShort = f.Replace(buildDirectory + "bin/content", "");
                     try
                     {
                         File.Copy(f, Program.CLKWRK + "Binaries/" + fShort, true);
@@ -280,7 +278,7 @@ namespace Clockwork_Asset_Builder
 
         void DeleteTempDirectory()
         {
-            Directory.Delete(buildDirectory, true);
+            //Directory.Delete(buildDirectory, true);
         }
 
         #endregion

@@ -18,7 +18,6 @@ namespace Clockwork_Age_Editor
 {
     public partial class Form1 : Form
     {
-        ContentBuilder contentBuilder;
         ContentManager contentManager;
 
         public Form1()
@@ -27,8 +26,7 @@ namespace Clockwork_Age_Editor
             Mouse.WindowHandle = xnaViewControl1.FindForm().Handle;
             xnaViewControl1.Focus();
             
-            contentBuilder = ContentBuilder.Singleton;
-            contentManager = new ContentManager(xnaViewControl1.Services, contentBuilder.OutputDirectory);
+            contentManager = new ContentManager(xnaViewControl1.Services, AssetManager.CONTENT_FOLDER + "Binaries/");
             //Application.Idle += delegate { Refresh(); };
         }
 
@@ -77,21 +75,21 @@ namespace Clockwork_Age_Editor
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                Clockwork_Age_Editor.ModelManager.g_models.Clear();
+                AssetManager.Singleton.m_Models.Clear();
 
-                Clockwork_Age_Editor.Scene sc = CreateScene(fileDialog.FileName);
+                Scene sc = CreateScene(fileDialog.FileName);
                 sc.Dimensions = new Microsoft.Xna.Framework.Vector2(xnaViewControl1.Width, xnaViewControl1.Height);
                 xnaViewControl1.LoadScene(contentManager, sc);
             }
         }
 
-        private Clockwork_Age_Editor.Scene CreateScene(string fileName)
+        private Scene CreateScene(string fileName)
         {
             //fileName = fileName.Replace("\\", "|");
             //string[] fileNameParts = fileName.Split('|');
             //string file = (fileNameParts[fileNameParts.Length - 1].Split('.'))[0];
 
-            return new Clockwork_Age_Editor.Scene(fileName);
+            return new Scene(fileName);
         }
 
 
@@ -143,34 +141,35 @@ namespace Clockwork_Age_Editor
 
         private void LoadAssets()
         {
-            xnaViewControl1.LoadContent(contentManager);
-            List<string> strings = Clockwork_Age_Editor.ModelManager.Singleton.ListAssetTable();
-            foreach (string s in strings)
+            treeView1.Nodes.Add(new TreeNode("Assets"));
+            LoadFilesOfDirectory(AssetManager.CONTENT_FOLDER + "Binaries/", treeView1.Nodes[0]);
+        }
+
+        void LoadFilesOfDirectory(string directory, TreeNode node)
+        {
+            foreach (string dir in Directory.GetDirectories(directory))
             {
-                listBox1.Items.Add(s);
+                TreeNode newNode = new TreeNode(dir.Replace(directory, ""));
+                node.Nodes.Add( newNode );
+                LoadFilesOfDirectory(dir, newNode);
+                
+            }
+            foreach (string file in Directory.GetFiles(directory))
+            {
+                string fileName = file; 
+                fileName = fileName.Replace(".xnb", "");
+                fileName = fileName.Replace(directory, "");
+                if (fileName[0] == '\\')
+                    fileName = fileName.Replace("\\", "");
+
+                node.Nodes.Add(new TreeNode(fileName));
             }
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (listBox1.SelectedItem != null)
-                if (listBox1.SelectedItem.ToString().Length > 0)
-                    xnaViewControl1.m_Scene.AddModel(listBox1.SelectedItem.ToString());
-        }
-
-        private void listBox1_MouseClick(object sender, MouseEventArgs e)
-        {
-            
-        }
+        
 
         private void xnaViewControl1_Click(object sender, EventArgs e)
         {
-            listBox1.ClearSelected();
             xnaViewControl1.Focus();
 
         }

@@ -31,7 +31,7 @@ namespace Clockwork_Age_Editor
             CreateLookAt();
         }
 
-        public override void update(float deltaTime)
+        public override void Update(float deltaTime)
         {
             m_CameraMan.update(deltaTime);
 

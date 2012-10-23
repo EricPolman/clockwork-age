@@ -79,7 +79,7 @@ namespace Clockwork_Age_Editor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             
-            mainScene.update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            mainScene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             // TODO: Add your update logic here
 
@@ -94,7 +94,7 @@ namespace Clockwork_Age_Editor
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            mainScene.draw();
+            mainScene.Draw();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

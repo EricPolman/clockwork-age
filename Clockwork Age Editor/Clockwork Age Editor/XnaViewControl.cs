@@ -20,7 +20,7 @@ namespace Clockwork_Age_Editor
 {
     class XnaViewControl : GraphicsDeviceControl
     {
-        public Clockwork_Age_Editor.Scene m_Scene;
+        public Scene m_Scene;
         float deltaTime = 0;
         DateTime startTime, prev;
         
@@ -47,14 +47,14 @@ namespace Clockwork_Age_Editor
 
         public void LoadContent(ContentManager Content)
         {
-            Clockwork_Age_Editor.ModelManager.Singleton.graphicsDevice = GraphicsDevice;
-            Clockwork_Age_Editor.ModelManager.Singleton.LoadContent(Content);
+            AssetManager.Singleton.m_GraphicsDevice = GraphicsDevice;
+            AssetManager.Singleton.LoadContent(Content);
 
             Selector.Singleton.LoadContent(GraphicsDevice);
-            LoadScene(Content, new Clockwork_Age_Editor.Scene());
+            LoadScene(Content, new Scene());
         }
         
-        public void LoadScene(ContentManager Content, Clockwork_Age_Editor.Scene scene)
+        public void LoadScene(ContentManager Content, Scene scene)
         {
             m_Scene = scene;
             m_Scene.Dimensions = new Microsoft.Xna.Framework.Vector2(Width, Height);
@@ -64,7 +64,7 @@ namespace Clockwork_Age_Editor
         public void UpdateScene()
         {
             if (m_Scene != null)
-                m_Scene.update(deltaTime);
+                m_Scene.Update(deltaTime);
         }
 
         protected override void Draw()
@@ -72,7 +72,7 @@ namespace Clockwork_Age_Editor
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             if(m_Scene != null)
-                m_Scene.draw();
+                m_Scene.Draw();
             
         }
     }

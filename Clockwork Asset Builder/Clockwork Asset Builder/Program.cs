@@ -53,13 +53,18 @@ namespace Clockwork_Asset_Builder
                         name = String.Join("", nameParts);
 
                         ContentBuilder.Singleton.Add(CLKWRK + asset.ChildNodes[0].InnerText, name, null, asset.ChildNodes[3].InnerText + "Processor");
-                        ContentBuilder.Singleton.Build();
+                        Console.WriteLine(ContentBuilder.Singleton.Build());
 
                         asset.ChildNodes[2].InnerText = DateTime.Now.ToString();
                     }
                     ContentBuilder.Singleton.CopyContents(ContentBuilder.Singleton.buildDirectory + "bin/content/");
                     assetXml.Save(CLKWRK + "Data/assets.xml");
                 }
+                Console.WriteLine("Removing build-folder.");
+                if(Directory.Exists(CLKWRK + "build/"))
+                   Directory.Delete(CLKWRK + "build/", true);
+
+                Console.WriteLine("Done.");
             }
 
             timer.Start();

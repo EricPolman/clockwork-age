@@ -34,8 +34,8 @@
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sceneFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.xnaViewControl1 = new Clockwork_Age_Editor.XnaViewControl();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.xnaViewControl1 = new XnaViewControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,22 +87,18 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
-            // listBox1
+            // treeView1
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(13, 37);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(162, 186);
-            this.listBox1.TabIndex = 3;
-            this.listBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseClick);
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
-            this.listBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDoubleClick);
+            this.treeView1.Location = new System.Drawing.Point(12, 37);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(195, 513);
+            this.treeView1.TabIndex = 4;
             // 
             // xnaViewControl1
             // 
-            this.xnaViewControl1.Location = new System.Drawing.Point(188, 37);
+            this.xnaViewControl1.Location = new System.Drawing.Point(213, 37);
             this.xnaViewControl1.Name = "xnaViewControl1";
-            this.xnaViewControl1.Size = new System.Drawing.Size(784, 513);
+            this.xnaViewControl1.Size = new System.Drawing.Size(759, 513);
             this.xnaViewControl1.TabIndex = 2;
             this.xnaViewControl1.Text = "xnaViewControl1";
             this.xnaViewControl1.Click += new System.EventHandler(this.xnaViewControl1_Click);
@@ -113,7 +109,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.ClientSize = new System.Drawing.Size(984, 562);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.xnaViewControl1);
             this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.Color.WhiteSmoke;
@@ -136,7 +132,7 @@
         private XnaViewControl xnaViewControl1;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sceneFileToolStripMenuItem;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TreeView treeView1;
 
     }
 }

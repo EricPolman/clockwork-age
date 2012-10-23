@@ -12,7 +12,7 @@ namespace Clockwork_Age_Editor
 {
     class Scene
     {
-        public ModelManager modelManager;
+        public AssetManager modelManager;
         public ContentManager Content;
         public Camera camera;
         private Vector2 dimensions;
@@ -23,13 +23,13 @@ namespace Clockwork_Age_Editor
         public Scene(string name)
         {
             this.name = name;
-            modelManager = ModelManager.Singleton;
-            Clockwork_Age_Editor.Selector.Singleton.camera = camera;
+            modelManager = AssetManager.Singleton;
+            Selector.Singleton.camera = camera;
         }
         public Scene()
         {
-            modelManager = ModelManager.Singleton;
-            name = ModelManager.env + name;
+            modelManager = AssetManager.Singleton;
+            name = AssetManager.CONTENT_FOLDER + name;
         }
 
         public void LoadContent(ContentManager Content, GraphicsDevice graphicsDevice)
@@ -40,15 +40,15 @@ namespace Clockwork_Age_Editor
             this.Content = Content;
         }
 
-        public void update(float deltaTime)
+        public void Update(float deltaTime)
         {
-            modelManager.update(deltaTime);
-            camera.update(deltaTime);
+            modelManager.Update(deltaTime);
+            camera.Update(deltaTime);
         }
 
-        public void draw()
+        public void Draw()
         {
-            modelManager.draw();
+            modelManager.Draw();
         }
 
         public string Export()
@@ -75,14 +75,7 @@ namespace Clockwork_Age_Editor
                 string assetName = assetProperties[0];
                 Vector3 assetPosition = new Vector3(float.Parse(strPos[0]), float.Parse(strPos[1]), float.Parse(strPos[2]));
 
-                Clockwork_Age_Editor.ModelManager.AssetInfo info;
-                ModelManager.g_AssetTable.TryGetValue(assetName, out info);
-
-                Model m;
-                ModelManager.g_modelPrototypes.TryGetValue(info.name + "_model", out m);
-                Texture2D tex;
-                ModelManager.g_texturePrototypes.TryGetValue(info.name + "_diffuse", out tex);
-                ModelManager.g_models.Add(new BasicModel(info.name, m, Content.Load<Effect>("Effects/Diffuse.fx"), tex, graphicsDevice, assetPosition));
+                AssetManager.Singleton.m_Models.Add(new GameObject(assetName, Content.Load<Model>("Models/"+assetName), Content.Load<Effect>("Effects/Diffuse"), null, assetPosition));
             }
 
             sr.Close();
@@ -91,13 +84,8 @@ namespace Clockwork_Age_Editor
 
         public void AddModel(string modelName)
         {
-            Clockwork_Age_Editor.ModelManager.AssetInfo info;
-            ModelManager.g_AssetTable.TryGetValue(modelName, out info);
-            Model m;
-            ModelManager.g_modelPrototypes.TryGetValue(info.name + "_model", out m);
-            Texture2D tex;
-            ModelManager.g_texturePrototypes.TryGetValue(info.name + "_diffuse", out tex);
-            ModelManager.g_models.Add(new BasicModel(info.name, m, Content.Load<Effect>("Effects/Diffuse.fx"), tex, graphicsDevice, Vector3.Zero));
+
+            AssetManager.Singleton.m_Models.Add(new GameObject(modelName, Content.Load<Model>(modelName), Content.Load<Effect>("Effects/Diffuse"), Content.Load<Texture2D>("Textures/brick1"), Vector3.Zero));
         }
     }
 }

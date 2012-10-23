@@ -15,9 +15,9 @@ namespace Clockwork_Age_Editor
         public static Selector Singleton { get { if (_singleton == null) { _singleton = new Selector(); } return _singleton; } }
         MouseState mouseState, oldMouseState;
         public GraphicsDevice graphicsDevice;
-        public Clockwork_Age_Editor.BasicModel selection;
+        public GameObject selection;
         Viewport viewport;
-        public Clockwork_Age_Editor.Camera camera;
+        public Camera camera;
 
         public Selector()
         {
@@ -37,7 +37,7 @@ namespace Clockwork_Age_Editor
 
             /*if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
             {
-                Ray ray = Clockwork_Age_Editor.Camera.GetMouseRay(new Vector2(mouseState.X, mouseState.Y), viewport, camera);
+                Ray ray = Camera.GetMouseRay(new Vector2(mouseState.X, mouseState.Y), viewport, camera);
                 float? dist = 0;
                 foreach (BasicModel bm in ModelManager.g_models)
                 {

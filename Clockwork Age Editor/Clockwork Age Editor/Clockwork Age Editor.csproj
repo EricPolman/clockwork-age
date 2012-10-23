@@ -59,12 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicModel.cs" />
+    <Compile Include="GameObject.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CameraMan.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="ISelectable.cs" />
-    <Compile Include="ModelManager.cs" />
+    <Compile Include="AssetManager.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Selector.cs" />
@@ -80,9 +80,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GraphicsDeviceService.cs" />
-    <Compile Include="ModelViewerController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceContainer.cs" />
