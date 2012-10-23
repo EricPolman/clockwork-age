@@ -75,7 +75,7 @@ namespace Clockwork_Age_Editor
                 string assetName = assetProperties[0];
                 Vector3 assetPosition = new Vector3(float.Parse(strPos[0]), float.Parse(strPos[1]), float.Parse(strPos[2]));
 
-                AssetManager.Singleton.m_Models.Add(new GameObject(assetName, Content.Load<Model>("Models/"+assetName), Content.Load<Effect>("Effects/Diffuse"), null, assetPosition));
+                AssetManager.Singleton.m_GameObjects.Add(new GameObject(assetName, Content.Load<Model>("Models/"+assetName), Content.Load<Effect>("Effects/Diffuse"), null, assetPosition));
             }
 
             sr.Close();
@@ -84,8 +84,7 @@ namespace Clockwork_Age_Editor
 
         public void AddModel(string modelName)
         {
-
-            AssetManager.Singleton.m_Models.Add(new GameObject(modelName, Content.Load<Model>(modelName), Content.Load<Effect>("Effects/Diffuse"), Content.Load<Texture2D>("Textures/brick1"), Vector3.Zero));
+            AssetManager.Singleton.m_GameObjects.Add(new GameObject(modelName, Content.Load<Model>("Models/"+modelName), Content.Load<Effect>("Effects/Diffuse"), null, camera.m_vTarget));
         }
     }
 }

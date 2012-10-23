@@ -48,7 +48,6 @@ namespace Clockwork_Age_Editor
         public void LoadContent(ContentManager Content)
         {
             AssetManager.Singleton.m_GraphicsDevice = GraphicsDevice;
-            AssetManager.Singleton.LoadContent(Content);
 
             Selector.Singleton.LoadContent(GraphicsDevice);
             LoadScene(Content, new Scene());

@@ -27,6 +27,8 @@ namespace Clockwork_Age_Editor
             xnaViewControl1.Focus();
             
             contentManager = new ContentManager(xnaViewControl1.Services, AssetManager.CONTENT_FOLDER + "Binaries/");
+
+
             //Application.Idle += delegate { Refresh(); };
         }
 
@@ -75,7 +77,7 @@ namespace Clockwork_Age_Editor
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                AssetManager.Singleton.m_Models.Clear();
+                AssetManager.Singleton.m_GameObjects.Clear();
 
                 Scene sc = CreateScene(fileDialog.FileName);
                 sc.Dimensions = new Microsoft.Xna.Framework.Vector2(xnaViewControl1.Width, xnaViewControl1.Height);
@@ -141,6 +143,7 @@ namespace Clockwork_Age_Editor
 
         private void LoadAssets()
         {
+            xnaViewControl1.LoadContent(contentManager);
             treeView1.Nodes.Add(new TreeNode("Assets"));
             LoadFilesOfDirectory(AssetManager.CONTENT_FOLDER + "Binaries/", treeView1.Nodes[0]);
         }
@@ -172,6 +175,19 @@ namespace Clockwork_Age_Editor
         {
             xnaViewControl1.Focus();
 
+        }
+
+        private void treeView1_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+
+        }
+
+        private void treeView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode.Parent.Text == "Models")
+            {
+                xnaViewControl1.m_Scene.AddModel(treeView1.SelectedNode.Text);
+            }
         }
     }
 }

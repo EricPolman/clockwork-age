@@ -35,7 +35,7 @@
             this.sceneFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.xnaViewControl1 = new XnaViewControl();
+            this.xnaViewControl1 = new Clockwork_Age_Editor.XnaViewControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,6 +93,8 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(195, 513);
             this.treeView1.TabIndex = 4;
+            this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
+            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
             // xnaViewControl1
             // 

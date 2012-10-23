@@ -18,9 +18,9 @@ namespace Clockwork_Age_Editor
         public string m_sName;
 
         GraphicsDevice GRAPHICS_DEVICE = AssetManager.Singleton.m_GraphicsDevice;
-        Matrix worldRotation, worldTranslation, worldScale;
+        Matrix worldRotation, worldScale;
         
-
+        
         public GameObject(string name, Model model, Effect effect, Texture2D texture, Vector3 position)
         {
             m_vPosition = position;
@@ -30,7 +30,6 @@ namespace Clockwork_Age_Editor
             m_Effect = effect;
 
             worldRotation = Matrix.Identity;
-            worldTranslation = Matrix.CreateTranslation(m_vPosition);
             worldScale = Matrix.CreateScale(1);
             
             SetEffect(m_Effect);
@@ -71,12 +70,10 @@ namespace Clockwork_Age_Editor
                        
                         m_Effect.Parameters["ModelTexture"].SetValue(m_Texture);
                     }
-                    m_Effect.Parameters["World"].SetValue(GetWorld() * mesh.ParentBone.Transform);
+                    m_Effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * GetWorld());
                     m_Effect.Parameters["View"].SetValue(Camera.View);
                     m_Effect.Parameters["Projection"].SetValue(Camera.Projection);
                     m_Effect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(GetWorld() * mesh.ParentBone.Transform)));
-                    
-                    
                 }
 
                 mesh.Draw();
@@ -85,7 +82,7 @@ namespace Clockwork_Age_Editor
 
         public virtual Matrix GetWorld()
         {
-            return Matrix.CreateScale(0.01f) * worldScale * worldRotation * worldTranslation;
+            return Matrix.CreateScale(0.01f) * worldScale * worldRotation * Matrix.CreateTranslation(m_vPosition);
         }
 
         public string[] Export()

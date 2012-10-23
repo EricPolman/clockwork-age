@@ -19,7 +19,7 @@ namespace Clockwork_Age_Editor
         private static AssetManager _singleton;
         public static AssetManager Singleton { get { if (_singleton == null) { _singleton = new AssetManager(); } return _singleton; } }
 
-        public List<GameObject> m_Models = new List<GameObject>();
+        public List<GameObject> m_GameObjects = new List<GameObject>();
         public GraphicsDevice m_GraphicsDevice;
 
         public Dictionary<string, object> m_Assets = new Dictionary<string, object>();
@@ -28,33 +28,22 @@ namespace Clockwork_Age_Editor
 
         public AssetManager()
         {
-            
-        }
 
-        public void LoadContent(ContentManager Content)
-        {
-            
-            
-        }
-
-        private void BuildAssetDictionary(ContentManager Content)
-        {
-            
         }
 
         public void Update(float deltaTime)
         {
-            for (int i = 0; i < m_Models.Count; ++i)
+            for (int i = 0; i < m_GameObjects.Count; ++i)
             {
-                m_Models[i].Update(deltaTime);
+                m_GameObjects[i].Update(deltaTime);
             }
         }
 
         public void Draw()
         {
-            for (int i = 0; i < m_Models.Count; ++i)
+            for (int i = 0; i < m_GameObjects.Count; ++i)
             {
-                m_Models[i].Draw();
+                m_GameObjects[i].Draw();
             }
         }
 
