@@ -25,6 +25,10 @@ namespace Clockwork_Asset_Builder
                 string s = Console.ReadLine();
                 if (s == "quit" || s == "exit" || s == "stop")
                     return;
+                else if (s == "pause" || s == "pauze")
+                    timer.Stop();
+                else if (s == "start" || s == "continue")
+                    timer.Start();
             }
         }
 

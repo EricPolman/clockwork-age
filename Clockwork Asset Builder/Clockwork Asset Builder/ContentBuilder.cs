@@ -246,7 +246,7 @@ namespace Clockwork_Asset_Builder
             buildDirectory = Program.CLKWRK + "build/";
 
             // Create our temporary directory.
-            Directory.CreateDirectory(buildDirectory);
+            Directory.CreateDirectory(buildDirectory + "bin/content");
         }
 
         public void CopyContents(string directory)
