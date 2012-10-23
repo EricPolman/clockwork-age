@@ -18,7 +18,7 @@ using Microsoft.Build.Execution;
 using Microsoft.Build.Framework;
 #endregion
 
-namespace Clockwork_Age_Editor
+namespace Clockwork_Asset_Builder
 {
     /// <summary>
     /// This class wraps the MSBuild functionality needed to build XNA Framework
@@ -64,17 +64,9 @@ namespace Clockwork_Age_Editor
         List<ProjectItem> projectItems = new List<ProjectItem>();
         ErrorLogger errorLogger;
 
-
         // Temporary directories used by the content build.
-        string buildDirectory;
-        string processDirectory;
-        string baseDirectory;
-
-
-        // Generate unique directory names if there is more than one ContentBuilder.
-        static int directorySalt;
-
-
+        public string buildDirectory;
+        
         // Have we been disposed?
         bool isDisposed;
 
@@ -123,7 +115,6 @@ namespace Clockwork_Age_Editor
         public void Dispose()
         {
             Dispose(true);
-
             GC.SuppressFinalize(this);
         }
 
@@ -140,7 +131,6 @@ namespace Clockwork_Age_Editor
                 DeleteTempDirectory();
             }
         }
-
 
         #endregion
 
@@ -204,19 +194,9 @@ namespace Clockwork_Age_Editor
                 item.SetMetadataValue("Processor", processor);
 
             projectItems.Add(item);
+
+            Console.WriteLine("Building " + name);
         }
-
-
-        /// <summary>
-        /// Removes all content files from the MSBuild project.
-        /// </summary>
-        public void Clear()
-        {
-            buildProject.RemoveItems(projectItems);
-
-            projectItems.Clear();
-        }
-
 
         /// <summary>
         /// Builds all the content files which have been added to the project,
@@ -241,11 +221,15 @@ namespace Clockwork_Age_Editor
 
             BuildManager.DefaultBuildManager.EndBuild();
 
+            
+
             // If the build failed, return an error string.
             if (submission.BuildResult.OverallResult == BuildResultCode.Failure)
             {
                 return string.Join("\n", errorLogger.Errors.ToArray());
             }
+
+           
 
             return null;
         }
@@ -261,95 +245,43 @@ namespace Clockwork_Age_Editor
         /// </summary>
         void CreateTempDirectory()
         {
-            // Start with a standard base name:
-            //
-            //  %temp%\WinFormsContentLoading.ContentBuilder
-
-            baseDirectory = Path.Combine(Path.GetTempPath(), GetType().FullName);
-
-            // Include our process ID, in case there is more than
-            // one copy of the program running at the same time:
-            //
-            //  %temp%\WinFormsContentLoading.ContentBuilder\<ProcessId>
-
-            int processId = Process.GetCurrentProcess().Id;
-
-            processDirectory = Path.Combine(baseDirectory, processId.ToString());
-
-            // Include a salt value, in case the program
-            // creates more than one ContentBuilder instance:
-            //
-            //  %temp%\WinFormsContentLoading.ContentBuilder\<ProcessId>\<Salt>
-
-            directorySalt++;
-
-            buildDirectory = ModelManager.env + "build/";
+            buildDirectory = Program.CLKWRK + "build/";
 
             // Create our temporary directory.
             Directory.CreateDirectory(buildDirectory);
-
-            PurgeStaleTempDirectories();
         }
 
-
-        /// <summary>
-        /// Deletes our temporary directory when we are finished with it.
-        /// </summary>
-        void DeleteTempDirectory()
+        public void CopyContents(string directory)
         {
-            /*Directory.Delete(buildDirectory, true);
-
-            // If there are no other instances of ContentBuilder still using their
-            // own temp directories, we can delete the process directory as well.
-            if (Directory.GetDirectories(processDirectory).Length == 0)
+            if(Directory.Exists(directory))
             {
-                Directory.Delete(processDirectory);
-
-                // If there are no other copies of the program still using their
-                // own temp directories, we can delete the base directory as well.
-                if (Directory.GetDirectories(baseDirectory).Length == 0)
+                foreach(string f in Directory.GetFiles(directory))
                 {
-                    Directory.Delete(baseDirectory);
-                }
-            }*/
-        }
-
-
-        /// <summary>
-        /// Ideally, we want to delete our temp directory when we are finished using
-        /// it. The DeleteTempDirectory method (called by whichever happens first out
-        /// of Dispose or our finalizer) does exactly that. Trouble is, sometimes
-        /// these cleanup methods may never execute. For instance if the program
-        /// crashes, or is halted using the debugger, we never get a chance to do
-        /// our deleting. The next time we start up, this method checks for any temp
-        /// directories that were left over by previous runs which failed to shut
-        /// down cleanly. This makes sure these orphaned directories will not just
-        /// be left lying around forever.
-        /// </summary>
-        void PurgeStaleTempDirectories()
-        {
-            // Check all subdirectories of our base location.
-            /*foreach (string directory in Directory.GetDirectories(baseDirectory))
-            {
-                // The subdirectory name is the ID of the process which created it.
-                int processId;
-
-                if (int.TryParse(Path.GetFileName(directory), out processId))
-                {
+                    string fShort = f.Replace(buildDirectory + "bin/content/", "");
                     try
                     {
-                        // Is the creator process still running?
-                        Process.GetProcessById(processId);
+                        File.Copy(f, Program.CLKWRK + "Binaries/" + fShort, true);
                     }
-                    catch (ArgumentException)
+                    catch (DirectoryNotFoundException e)
                     {
-                        // If the process is gone, we can delete its temp directory.
-                        Directory.Delete(directory, true);
+                        string[] fDirParts = fShort.Split('\\');
+                        fDirParts[fDirParts.Length - 1] = "";
+                        string fDir = string.Join("", fDirParts);
+                        Directory.CreateDirectory(Program.CLKWRK + "Binaries/" + fDir);
+                        File.Copy(f, Program.CLKWRK + "Binaries/" + fShort, true);
                     }
                 }
-            }*/
+                foreach(string d in Directory.GetDirectories(directory))
+                {
+                    CopyContents(d);
+                }
+            }
         }
 
+        void DeleteTempDirectory()
+        {
+            Directory.Delete(buildDirectory, true);
+        }
 
         #endregion
     }

@@ -43,7 +43,7 @@ namespace Clockwork_Age_Editor
 
         public void LoadContent(ContentManager Content)
         {
-            Clockwork_Age_Editor.ContentBuilder.Singleton.Add(env + "Effects/Diffuse.fx", "Effects/Diffuse.fx", null, "EffectProcessor");
+            //Clockwork_Age_Editor.ContentBuilder.Singleton.Add(env + "Effects/Diffuse.fx", "Effects/Diffuse.fx", null, "EffectProcessor");
             BuildAssetDictionary(Content);
             
         }
@@ -73,22 +73,22 @@ namespace Clockwork_Age_Editor
                     assetInfo.diffuseMap = assetParts[4];
                 g_AssetTable.Add(assetParts[0], assetInfo);
 
-                Clockwork_Age_Editor.ContentBuilder.Singleton.Add(env + assetInfo.model, assetInfo.name + "_model", null, "ModelProcessor");
-                Clockwork_Age_Editor.ContentBuilder.Singleton.Add(env + assetInfo.diffuseMap, assetInfo.name + "_diffuse", null, "TextureProcessor");
+                //Clockwork_Age_Editor.ContentBuilder.Singleton.Add(env + assetInfo.model, assetInfo.name + "_model", null, "ModelProcessor");
+                //Clockwork_Age_Editor.ContentBuilder.Singleton.Add(env + assetInfo.diffuseMap, assetInfo.name + "_diffuse", null, "TextureProcessor");
 
-                string buildError = contentBuilder.Build();
+                /*string buildError = contentBuilder.Build();
 
                 if (string.IsNullOrEmpty(buildError))
-                {
+                {*/
                     g_modelPrototypes.Add(assetInfo.name + "_model", Content.Load<Model>(assetInfo.name + "_model"));
                     g_texturePrototypes.Add(assetInfo.name + "_diffuse", Content.Load<Texture2D>(assetInfo.name + "_diffuse"));
-
+                /*
                 }
                 else
                 {
                     // If the build failed, display an error message.
                     MessageBox.Show(buildError, "Error");
-                }
+                }*/
             }
 
             sr.Close();

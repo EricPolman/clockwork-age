@@ -40,8 +40,8 @@ namespace Clockwork_Age_Editor
                 if(m_CurrentMouseState.LeftButton == ButtonState.Pressed)
                 {
                     //Orbiting
-                    m_Camera.m_vRotation.Y += m_MouseMovement.X / 500;
-                    m_Camera.m_vRotation.X -= m_MouseMovement.Y / 500;
+                    m_Camera.m_vRotation.Y += m_MouseMovement.X / 150;
+                    m_Camera.m_vRotation.X -= m_MouseMovement.Y / 150;
 
                     m_Camera.m_mRotation = Matrix.CreateFromYawPitchRoll(m_Camera.m_vRotation.Y, m_Camera.m_vRotation.X, 0);
 
@@ -55,8 +55,8 @@ namespace Clockwork_Age_Editor
                 else if (m_CurrentMouseState.MiddleButton == ButtonState.Pressed)
                 {
                     //Panning
-                    m_Camera.m_vPosition += Vector3.Transform(Vector3.Right * m_MouseMovement.X / 100, m_Camera.m_mRotation) + Vector3.Transform(Vector3.Up * m_MouseMovement.Y / 100, m_Camera.m_mRotation);
-                    m_Camera.m_vTarget += Vector3.Transform(Vector3.Right * m_MouseMovement.X / 100, m_Camera.m_mRotation) + Vector3.Transform(Vector3.Up * m_MouseMovement.Y / 100, m_Camera.m_mRotation);
+                    m_Camera.m_vPosition += Vector3.Transform(Vector3.Right * m_MouseMovement.X / 50, m_Camera.m_mRotation) + Vector3.Transform(Vector3.Up * m_MouseMovement.Y / 50, m_Camera.m_mRotation);
+                    m_Camera.m_vTarget += Vector3.Transform(Vector3.Right * m_MouseMovement.X / 50, m_Camera.m_mRotation) + Vector3.Transform(Vector3.Up * m_MouseMovement.Y / 50, m_Camera.m_mRotation);
 
                 }
                 else if (m_CurrentMouseState.RightButton == ButtonState.Pressed)
@@ -80,6 +80,7 @@ namespace Clockwork_Age_Editor
                 m_Camera.m_vPosition = Vector3.Lerp(m_Camera.m_vPosition, m_Camera.m_vTarget, -0.02f);
             }
             #endregion
+
             #region Keyboard Control
             if (m_KeyboardState.IsKeyDown(Keys.Up))
             {
