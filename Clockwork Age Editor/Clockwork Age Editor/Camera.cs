@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Clockwork_Age_Editor
 {
@@ -43,6 +44,17 @@ namespace Clockwork_Age_Editor
             View = Matrix.CreateLookAt(m_vPosition, m_vTarget, m_vUp);
         }
 
+        public static Ray GetMouseRay(Vector2 mousePosition, Viewport viewport)
+        {
+            Vector3 nearPoint = new Vector3(mousePosition, 0);
+            Vector3 farPoint = new Vector3(mousePosition, 1);
 
+            Vector3 nearPointWorld = viewport.Unproject(nearPoint, Projection, View, Matrix.Identity);
+            Vector3 farPointWorld = viewport.Unproject(farPoint, Projection, View, Matrix.Identity);
+            Vector3 direction = Vector3.Normalize(farPointWorld - nearPointWorld);
+
+            Ray ray = new Ray(nearPointWorld, direction);
+            return ray;
+        }
     }
 }

@@ -33,32 +33,26 @@ namespace Clockwork_Age_Editor
 
         public void update(float deltaTime)
         {
+            oldMouseState = mouseState;
             mouseState = Mouse.GetState();
 
-            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
+            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released && !Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
             {
-                Ray ray = Camera.GetMouseRay(new Vector2(mouseState.X, mouseState.Y), viewport, camera);
-                float? dist = 0;
-                foreach (BasicModel bm in ModelManager.g_models)
+                if (mouseState.X - XnaViewControl.g_LocationX < 0 || mouseState.Y - XnaViewControl.g_LocationY < 0) return;
+
+                Ray ray = Camera.GetMouseRay(new Vector2(mouseState.X - XnaViewControl.g_LocationX, mouseState.Y - XnaViewControl.g_LocationY), viewport);
+                GameObject temp = null;
+
+                foreach (GameObject gameObject in AssetManager.Singleton.m_GameObjects)
                 {
-                    foreach (ModelMesh mesh in bm.model.Meshes)
+                    if (gameObject.m_BoundingSphere.Intersects(ray) != null)
                     {
-                        float? temp = ray.Intersects(mesh.BoundingSphere);
-                        if (temp > ray.Intersects(mesh.BoundingSphere))
-                        {
-                            dist = ray.Intersects(mesh.BoundingSphere);
-                        }
-                        
+                        temp = gameObject;
                     }
                 }
 
+                selection = temp;
             }
-
-            oldMouseState = mouseState;
         }
-
-
-
-
     }
 }

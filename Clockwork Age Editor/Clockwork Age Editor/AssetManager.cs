@@ -44,7 +44,8 @@ namespace Clockwork_Age_Editor
             for (int i = 0; i < m_GameObjects.Count; ++i)
             {
                 m_GameObjects[i].Draw();
-                BoundingSphereRenderer.Render(m_GameObjects[i].m_BoundingSphere, m_GraphicsDevice, Camera.View, Camera.Projection, Color.Red);
+                if (m_GameObjects[i] == Selector.Singleton.selection) 
+                    BoundingSphereRenderer.Render(m_GameObjects[i].m_BoundingSphere, m_GraphicsDevice, Camera.View, Camera.Projection, Color.Red);
             }
         }
 

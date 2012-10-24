@@ -24,14 +24,14 @@ namespace Clockwork_Age_Editor
         float deltaTime = 0;
         DateTime startTime, prev;
         
-        public static int g_Width, g_Height;
+        public static int g_LocationX, g_LocationY;
+
         protected override void Initialize()
         {
             Application.Idle += delegate { Refresh(); };
             Application.Idle += delegate { Invalidate(); };
-            g_Width = Width;
-            g_Height = Height;
-            BoundingSphereRenderer.InitializeGraphics(GraphicsDevice, 48);
+
+            BoundingSphereRenderer.InitializeGraphics(GraphicsDevice, 49);
         }
 
         public override void Refresh()
@@ -42,6 +42,9 @@ namespace Clockwork_Age_Editor
             Selector.Singleton.update(deltaTime);
             UpdateScene();
             base.Refresh();
+
+            g_LocationX = Location.X;
+            g_LocationY = Location.Y;
             
         }
 
