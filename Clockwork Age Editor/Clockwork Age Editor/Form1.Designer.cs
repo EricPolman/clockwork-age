@@ -35,6 +35,9 @@
             this.sceneFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.treeView2 = new System.Windows.Forms.TreeView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.xnaViewControl1 = new Clockwork_Age_Editor.XnaViewControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -89,18 +92,44 @@
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(12, 37);
+            this.treeView1.Location = new System.Drawing.Point(12, 54);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(195, 513);
+            this.treeView1.PathSeparator = "/";
+            this.treeView1.Size = new System.Drawing.Size(195, 218);
             this.treeView1.TabIndex = 4;
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
+            // treeView2
+            // 
+            this.treeView2.Location = new System.Drawing.Point(12, 306);
+            this.treeView2.Name = "treeView2";
+            this.treeView2.Size = new System.Drawing.Size(195, 243);
+            this.treeView2.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Assets";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 290);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Scene";
+            // 
             // xnaViewControl1
             // 
-            this.xnaViewControl1.Location = new System.Drawing.Point(213, 37);
+            this.xnaViewControl1.Location = new System.Drawing.Point(213, 35);
             this.xnaViewControl1.Name = "xnaViewControl1";
-            this.xnaViewControl1.Size = new System.Drawing.Size(759, 513);
+            this.xnaViewControl1.Size = new System.Drawing.Size(759, 515);
             this.xnaViewControl1.TabIndex = 2;
             this.xnaViewControl1.Text = "xnaViewControl1";
             this.xnaViewControl1.Click += new System.EventHandler(this.xnaViewControl1_Click);
@@ -111,6 +140,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.ClientSize = new System.Drawing.Size(984, 562);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.treeView2);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.xnaViewControl1);
             this.Controls.Add(this.menuStrip1);
@@ -135,6 +167,9 @@
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sceneFileToolStripMenuItem;
         private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView treeView2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
 
     }
 }

@@ -15,7 +15,7 @@ namespace Clockwork_Age_Editor
 
         Camera m_Camera;
 
-        KeyboardState m_KeyboardState;
+        KeyboardState m_KeyboardState, m_PastKeyboardState;
         MouseState m_CurrentMouseState, m_PastMouseState;
 
         Vector2 m_MouseMovement;
@@ -25,6 +25,7 @@ namespace Clockwork_Age_Editor
         {
             m_Camera = camera;
             m_PastMouseState = Mouse.GetState();
+            m_PastKeyboardState = Keyboard.GetState();
         }
 
         public void update(float deltaTime)
@@ -110,11 +111,18 @@ namespace Clockwork_Age_Editor
                 m_Camera.m_vPosition += back;
                 m_Camera.m_vTarget += back;
             }
+            if (m_KeyboardState.IsKeyDown(Keys.F))
+            {
+                Vector3 addition = Selector.Singleton.selection.m_BoundingSphere.Center - m_Camera.m_vTarget;
+                m_Camera.m_vTarget = Selector.Singleton.selection.m_BoundingSphere.Center;
+                m_Camera.m_vPosition += addition;
+            }
             #endregion
 
             m_Camera.m_vUp = Vector3.Transform(Vector3.Up, m_Camera.m_mRotation);
 
             m_PastMouseState = m_CurrentMouseState;
+            m_PastKeyboardState = m_KeyboardState;
         }
     }
 }

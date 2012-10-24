@@ -59,8 +59,6 @@ namespace Clockwork_Age_Editor
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
-            worldRotation = Matrix.CreateFromAxisAngle(Vector3.Up, rotation);
-            rotation += deltaTime;
         }
 
         public void Draw()
