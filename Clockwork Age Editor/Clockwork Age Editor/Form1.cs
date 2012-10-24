@@ -184,7 +184,7 @@ namespace Clockwork_Age_Editor
 
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode.Parent.Text == "Models")
+            if (treeView1.SelectedNode != null && treeView1.SelectedNode.Parent != null && treeView1.SelectedNode.Parent.Text == "Models")
             {
                 xnaViewControl1.m_Scene.AddModel(treeView1.SelectedNode.Text);
             }

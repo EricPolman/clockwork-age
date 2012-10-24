@@ -31,7 +31,7 @@ namespace Clockwork_Age_Editor
             Application.Idle += delegate { Invalidate(); };
             g_Width = Width;
             g_Height = Height;
-
+            BoundingSphereRenderer.InitializeGraphics(GraphicsDevice, 48);
         }
 
         public override void Refresh()

@@ -221,8 +221,6 @@ namespace Clockwork_Asset_Builder
 
             BuildManager.DefaultBuildManager.EndBuild();
 
-            
-
             // If the build failed, return an error string.
             if (submission.BuildResult.OverallResult == BuildResultCode.Failure)
             {

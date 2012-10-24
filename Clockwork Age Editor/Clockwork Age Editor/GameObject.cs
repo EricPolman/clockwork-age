@@ -15,11 +15,14 @@ namespace Clockwork_Age_Editor
         public Texture2D m_Texture;
         public Model m_Model;
 
+        public BoundingSphere m_BoundingSphere;
+
         public string m_sName;
+
+        float rotation;
 
         GraphicsDevice GRAPHICS_DEVICE = AssetManager.Singleton.m_GraphicsDevice;
         Matrix worldRotation, worldScale;
-        
         
         public GameObject(string name, Model model, Effect effect, Texture2D texture, Vector3 position)
         {
@@ -28,11 +31,18 @@ namespace Clockwork_Age_Editor
             m_Model = model;
             m_Texture = texture;
             m_Effect = effect;
+            m_BoundingSphere = model.Meshes[0].BoundingSphere;
 
+            
             worldRotation = Matrix.Identity;
             worldScale = Matrix.CreateScale(1);
             
             SetEffect(m_Effect);
+
+            BoundingBox box = UpdateBoundingBox(model, GetWorld());
+            m_BoundingSphere.Center = (box.Min + box.Max) * 0.5f;
+            m_BoundingSphere.Radius *= 0.008f;
+            
         }
 
         public void SetEffect(Effect effect)
@@ -49,6 +59,8 @@ namespace Clockwork_Age_Editor
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
+            worldRotation = Matrix.CreateFromAxisAngle(Vector3.Up, rotation);
+            rotation += deltaTime;
         }
 
         public void Draw()
@@ -58,8 +70,10 @@ namespace Clockwork_Age_Editor
 
             foreach(ModelMesh mesh in m_Model.Meshes)
             {
+                
                 foreach (ModelMeshPart part in mesh.MeshParts)
                 {
+                    
                     if (m_Texture == null)
                     {
                         m_Effect.CurrentTechnique = m_Effect.Techniques["DiffuseWithoutTexture"];
@@ -73,7 +87,8 @@ namespace Clockwork_Age_Editor
                     m_Effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * GetWorld());
                     m_Effect.Parameters["View"].SetValue(Camera.View);
                     m_Effect.Parameters["Projection"].SetValue(Camera.Projection);
-                    m_Effect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(GetWorld() * mesh.ParentBone.Transform)));
+                    Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * Matrix.CreateScale(0.01f) * worldScale * worldRotation));
+                    m_Effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
                 }
 
                 mesh.Draw();
@@ -83,6 +98,40 @@ namespace Clockwork_Age_Editor
         public virtual Matrix GetWorld()
         {
             return Matrix.CreateScale(0.01f) * worldScale * worldRotation * Matrix.CreateTranslation(m_vPosition);
+        }
+
+        protected BoundingBox UpdateBoundingBox(Model model, Matrix worldTransform)
+        {
+            // Initialize minimum and maximum corners of the bounding box to max and min values
+            Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+            // For each mesh of the model
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                {
+                    // Vertex buffer parameters
+                    int vertexStride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
+                    int vertexBufferSize = meshPart.NumVertices * vertexStride;
+
+                    // Get vertex data as float
+                    float[] vertexData = new float[vertexBufferSize / sizeof(float)];
+                    meshPart.VertexBuffer.GetData<float>(vertexData);
+
+                    // Iterate through vertices (possibly) growing bounding box, all calculations are done in world space
+                    for (int i = 0; i < vertexBufferSize / sizeof(float); i += vertexStride / sizeof(float))
+                    {
+                        Vector3 transformedPosition = Vector3.Transform(new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]), worldTransform);
+
+                        min = Vector3.Min(min, transformedPosition);
+                        max = Vector3.Max(max, transformedPosition);
+                    }
+                }
+            }
+
+            // Create and return bounding box
+            return new BoundingBox(min, max);
         }
 
         public string[] Export()

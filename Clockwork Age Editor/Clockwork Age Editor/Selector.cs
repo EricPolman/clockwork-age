@@ -35,7 +35,7 @@ namespace Clockwork_Age_Editor
         {
             mouseState = Mouse.GetState();
 
-            /*if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
+            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released)
             {
                 Ray ray = Camera.GetMouseRay(new Vector2(mouseState.X, mouseState.Y), viewport, camera);
                 float? dist = 0;
@@ -52,7 +52,7 @@ namespace Clockwork_Age_Editor
                     }
                 }
 
-            }*/
+            }
 
             oldMouseState = mouseState;
         }

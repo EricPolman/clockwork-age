@@ -42,5 +42,7 @@ namespace Clockwork_Age_Editor
         {
             View = Matrix.CreateLookAt(m_vPosition, m_vTarget, m_vUp);
         }
+
+
     }
 }
