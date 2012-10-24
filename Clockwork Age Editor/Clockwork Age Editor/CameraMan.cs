@@ -113,9 +113,12 @@ namespace Clockwork_Age_Editor
             }
             if (m_KeyboardState.IsKeyDown(Keys.F))
             {
-                Vector3 addition = Selector.Singleton.selection.m_BoundingSphere.Center - m_Camera.m_vTarget;
-                m_Camera.m_vTarget = Selector.Singleton.selection.m_BoundingSphere.Center;
-                m_Camera.m_vPosition += addition;
+                if (Selector.Singleton.m_Selection != null)
+                {
+                    Vector3 addition = Selector.Singleton.m_Selection.m_BoundingSphere.Center - m_Camera.m_vTarget;
+                    m_Camera.m_vTarget = Selector.Singleton.m_Selection.m_BoundingSphere.Center;
+                    m_Camera.m_vPosition += addition;
+                }
             }
             #endregion
 

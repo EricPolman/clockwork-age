@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using System.IO;
+using Microsoft.Xna.Framework.Input;
 
 namespace Clockwork_Age_Editor
 {
@@ -18,6 +19,9 @@ namespace Clockwork_Age_Editor
         private Vector2 dimensions;
         public Vector2 Dimensions { get { return dimensions; } set { dimensions = value;} }
         GraphicsDevice graphicsDevice;
+
+        KeyboardState m_KeyboardState, m_OldKeyboardState;
+
         string name = "Scenes/default.scene";
         SampleGrid grid;
 
@@ -25,7 +29,7 @@ namespace Clockwork_Age_Editor
         {
             this.name = name;
             assetManager = AssetManager.Singleton;
-            Selector.Singleton.camera = camera;
+            Selector.Singleton.m_Camera = camera;
         }
         public Scene()
         {
@@ -56,6 +60,20 @@ namespace Clockwork_Age_Editor
             grid.ViewMatrix = Camera.View;
             assetManager.Update(deltaTime);
             camera.Update(deltaTime);
+
+            m_KeyboardState = Keyboard.GetState();
+
+            if(m_KeyboardState.IsKeyDown(Keys.Delete))
+            {
+                if(Selector.Singleton.m_Selection != null)
+                {
+                    assetManager.m_GameObjects.Remove(Selector.Singleton.m_Selection);
+                    Form1.g_SceneView.Nodes.Remove(Selector.Singleton.m_Selection);
+                    Selector.Singleton.m_Selection = null;
+                }
+            }
+
+            m_OldKeyboardState = Keyboard.GetState();
         }
 
         public void Draw()
@@ -87,8 +105,9 @@ namespace Clockwork_Age_Editor
 
                 string assetName = assetProperties[0];
                 Vector3 assetPosition = new Vector3(float.Parse(strPos[0]), float.Parse(strPos[1]), float.Parse(strPos[2]));
-
-                AssetManager.Singleton.m_GameObjects.Add(new GameObject(assetName, Content.Load<Model>("Models/"+assetName), Content.Load<Effect>("Effects/Diffuse"), null, assetPosition));
+                GameObject go = new GameObject(assetName, Content.Load<Model>("Models/"+assetName), Content.Load<Effect>("Effects/Diffuse"), null, assetPosition);
+                AssetManager.Singleton.m_GameObjects.Add(go);
+                Form1.g_SceneView.Nodes.Add( go );
             }
 
             sr.Close();
@@ -97,7 +116,9 @@ namespace Clockwork_Age_Editor
 
         public void AddModel(string modelName)
         {
-            AssetManager.Singleton.m_GameObjects.Add(new GameObject(modelName, Content.Load<Model>("Models/"+modelName), Content.Load<Effect>("Effects/Diffuse"), null, camera.m_vTarget));
+            GameObject go = new GameObject(modelName, Content.Load<Model>("Models/" + modelName), Content.Load<Effect>("Effects/Diffuse"), null, camera.m_vTarget);
+            AssetManager.Singleton.m_GameObjects.Add(go);
+            Form1.g_SceneView.Nodes.Add( go );
         }
     }
 }

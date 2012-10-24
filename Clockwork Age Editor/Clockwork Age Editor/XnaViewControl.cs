@@ -23,6 +23,7 @@ namespace Clockwork_Age_Editor
         public Scene m_Scene;
         float deltaTime = 0;
         DateTime startTime, prev;
+        public TreeView m_SceneView;
         
         public static int g_LocationX, g_LocationY;
 
@@ -32,6 +33,7 @@ namespace Clockwork_Age_Editor
             Application.Idle += delegate { Invalidate(); };
 
             BoundingSphereRenderer.InitializeGraphics(GraphicsDevice, 49);
+            m_SceneView = Form1.g_SceneView;
         }
 
         public override void Refresh()
@@ -39,8 +41,10 @@ namespace Clockwork_Age_Editor
             TimeSpan ts = System.DateTime.Now - startTime;
             deltaTime = (float)ts.TotalSeconds;
             startTime = System.DateTime.Now;
+
             Selector.Singleton.update(deltaTime);
             UpdateScene();
+            
             base.Refresh();
 
             g_LocationX = Location.X;

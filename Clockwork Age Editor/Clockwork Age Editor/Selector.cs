@@ -13,34 +13,36 @@ namespace Clockwork_Age_Editor
     {
         private static Selector _singleton;
         public static Selector Singleton { get { if (_singleton == null) { _singleton = new Selector(); } return _singleton; } }
-        MouseState mouseState, oldMouseState;
-        public GraphicsDevice graphicsDevice;
-        public GameObject selection;
-        Viewport viewport;
-        public Camera camera;
+        MouseState m_MouseState, m_OldMouseState;
+
+        public GraphicsDevice m_GraphicsDevice;
+        public GameObject m_Selection;
+        public Viewport m_Viewport;
+        public Camera m_Camera;
 
         public Selector()
         {
-            oldMouseState = Mouse.GetState();
+            m_OldMouseState = Mouse.GetState();
             
         }
 
         public void LoadContent(GraphicsDevice gfx)
         {
-            graphicsDevice = gfx;
-            viewport = graphicsDevice.Viewport;
+            m_GraphicsDevice = gfx;
+            m_Viewport = m_GraphicsDevice.Viewport;
         }
 
         public void update(float deltaTime)
         {
-            oldMouseState = mouseState;
-            mouseState = Mouse.GetState();
+            m_OldMouseState = m_MouseState;
+            m_MouseState = Mouse.GetState();
+            m_Viewport = m_GraphicsDevice.Viewport;
 
-            if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released && !Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+            if (m_MouseState.LeftButton == ButtonState.Pressed && m_OldMouseState.LeftButton == ButtonState.Released && !Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
             {
-                if (mouseState.X - XnaViewControl.g_LocationX < 0 || mouseState.Y - XnaViewControl.g_LocationY < 0) return;
+                if (m_MouseState.X - XnaViewControl.g_LocationX < 0 || m_MouseState.Y - XnaViewControl.g_LocationY < 0) return;
 
-                Ray ray = Camera.GetMouseRay(new Vector2(mouseState.X - XnaViewControl.g_LocationX, mouseState.Y - XnaViewControl.g_LocationY), viewport);
+                Ray ray = Camera.GetMouseRay(new Vector2(m_MouseState.X - XnaViewControl.g_LocationX, m_MouseState.Y - XnaViewControl.g_LocationY), m_Viewport);
                 GameObject temp = null;
 
                 foreach (GameObject gameObject in AssetManager.Singleton.m_GameObjects)
@@ -51,7 +53,7 @@ namespace Clockwork_Age_Editor
                     }
                 }
 
-                selection = temp;
+                m_Selection = temp;
             }
         }
     }

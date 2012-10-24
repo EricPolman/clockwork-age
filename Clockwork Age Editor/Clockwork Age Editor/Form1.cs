@@ -20,6 +20,8 @@ namespace Clockwork_Age_Editor
     {
         ContentManager contentManager;
 
+        public static TreeView g_SceneView;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,15 +30,16 @@ namespace Clockwork_Age_Editor
             
             contentManager = new ContentManager(xnaViewControl1.Services, AssetManager.CONTENT_FOLDER + "Binaries/");
 
-
             //Application.Idle += delegate { Refresh(); };
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
+            g_SceneView = treeView2;
+            
             LoadAssets();
+            
         }
 
         protected override void OnResize(EventArgs e)
@@ -46,6 +49,8 @@ namespace Clockwork_Age_Editor
             xnaViewControl1.Width = Width - xnaViewControl1.Location.X - 30;
             xnaViewControl1.Height = Height - xnaViewControl1.Location.Y - 50;
             Camera.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)xnaViewControl1.Width / (float)xnaViewControl1.Height, 0.001f, 1000);
+            //if (xnaViewControl1.GraphicsDevice != null)
+            //Selector.Singleton.m_Viewport = new Viewport(xnaViewControl1.Location.X, xnaViewControl1.Location.Y, xnaViewControl1.Width, xnaViewControl1.Height);
         }
 
         /// <summary>
@@ -192,11 +197,24 @@ namespace Clockwork_Age_Editor
                 }
                 else if (treeView1.SelectedNode.Parent.Text == "Textures")
                 {
-                    if (Selector.Singleton.selection != null)
+                    if (Selector.Singleton.m_Selection != null)
                     {
-                        Selector.Singleton.selection.m_Texture = contentManager.Load<Texture2D>(treeView1.SelectedNode.Parent.Text + "/" + treeView1.SelectedNode.Text);
+                        Selector.Singleton.m_Selection.m_Texture = contentManager.Load<Texture2D>(treeView1.SelectedNode.Parent.Text + "/" + treeView1.SelectedNode.Text);
                     }
                 }
+            }
+        }
+
+        private void treeView2_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void treeView2_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (treeView2.SelectedNode != null)
+            {
+                Selector.Singleton.m_Selection = (GameObject)treeView2.SelectedNode;
             }
         }
     }

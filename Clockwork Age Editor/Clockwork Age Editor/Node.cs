@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Windows.Forms;
 
 namespace Clockwork_Age_Editor
 {
-    class Node
+    class Node : TreeNode
     {
         public Vector3 m_vPosition;
 

@@ -26,6 +26,8 @@ namespace Clockwork_Age_Editor
         
         public GameObject(string name, Model model, Effect effect, Texture2D texture, Vector3 position)
         {
+            Name = name;
+            Text = name;
             m_vPosition = position;
             m_sName = name;
             m_Model = model;
