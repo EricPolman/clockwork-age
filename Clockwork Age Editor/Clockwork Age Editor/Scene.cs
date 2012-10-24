@@ -12,24 +12,26 @@ namespace Clockwork_Age_Editor
 {
     class Scene
     {
-        public AssetManager modelManager;
+        public AssetManager assetManager;
         public ContentManager Content;
         public Camera camera;
         private Vector2 dimensions;
         public Vector2 Dimensions { get { return dimensions; } set { dimensions = value;} }
         GraphicsDevice graphicsDevice;
         string name = "Scenes/default.scene";
+        SampleGrid grid;
 
         public Scene(string name)
         {
             this.name = name;
-            modelManager = AssetManager.Singleton;
+            assetManager = AssetManager.Singleton;
             Selector.Singleton.camera = camera;
         }
         public Scene()
         {
-            modelManager = AssetManager.Singleton;
+            assetManager = AssetManager.Singleton;
             name = AssetManager.CONTENT_FOLDER + name;
+
         }
 
         public void LoadContent(ContentManager Content, GraphicsDevice graphicsDevice)
@@ -38,22 +40,33 @@ namespace Clockwork_Age_Editor
             PlaceModels(Content);
             camera = new Camera(new Vector3(0, 0, 40), Vector3.Zero, Vector3.Up, dimensions);
             this.Content = Content;
+            grid = new SampleGrid();
+            grid.GridColor = Color.White;
+            grid.GridScale = 5f;
+            grid.GridSize = 32;
+            // Set the grid to draw on the x/z plane around the origin
+            grid.WorldMatrix = Matrix.Identity;
+            grid.ProjectionMatrix = Camera.Projection;
+            grid.LoadGraphicsContent(graphicsDevice);
+            
         }
 
         public void Update(float deltaTime)
         {
-            modelManager.Update(deltaTime);
+            grid.ViewMatrix = Camera.View;
+            assetManager.Update(deltaTime);
             camera.Update(deltaTime);
         }
 
         public void Draw()
         {
-            modelManager.Draw();
+            grid.Draw();
+            assetManager.Draw();
         }
 
         public string Export()
         {
-            return modelManager.Export();
+            return assetManager.Export();
         }
 
         public void PlaceModels(ContentManager Content)

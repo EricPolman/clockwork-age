@@ -25,7 +25,6 @@ namespace Clockwork_Age_Editor
         public Dictionary<string, object> m_Assets = new Dictionary<string, object>();
         public Dictionary<object, string> m_AssetsInverse = new Dictionary<object, string>();
 
-
         public AssetManager()
         {
 
