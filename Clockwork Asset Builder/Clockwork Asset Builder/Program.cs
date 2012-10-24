@@ -63,27 +63,55 @@ namespace Clockwork_Asset_Builder
             assetXml.Save(CLKWRK + "Data/assets.xml");
             Console.WriteLine("Running through assets.XML..");
             assets = assetXml.GetElementsByTagName("Asset");
+            
+            List<XmlNode> toBeRemoved = new List<XmlNode>();
+
             foreach (XmlNode asset in assets)
             {
-                if (File.GetLastWriteTime(CLKWRK + asset.ChildNodes[0].InnerText) > Convert.ToDateTime(asset.ChildNodes[1].InnerText).AddSeconds(3))
+                string name = asset.ChildNodes[0].InnerText;
+                string[] nameParts = name.Split('.');
+                nameParts[nameParts.Length - 1] = "";
+                name = String.Join("", nameParts);
+
+                if (File.Exists(CLKWRK + asset.ChildNodes[0].InnerText))
                 {
-                    asset.ChildNodes[1].InnerText = File.GetLastWriteTime(CLKWRK + asset.ChildNodes[0].InnerText).ToString();
+                    if (File.GetLastWriteTime(CLKWRK + asset.ChildNodes[0].InnerText) > Convert.ToDateTime(asset.ChildNodes[1].InnerText).AddSeconds(3))
+                    {
+                        asset.ChildNodes[1].InnerText = File.GetLastWriteTime(CLKWRK + asset.ChildNodes[0].InnerText).ToString();
+                    }
+                    if (File.GetLastWriteTime(CLKWRK + asset.ChildNodes[0].InnerText) > Convert.ToDateTime(asset.ChildNodes[2].InnerText))
+                    {
+                        ContentBuilder.Singleton.Add(CLKWRK + asset.ChildNodes[0].InnerText, name, null, asset.ChildNodes[3].InnerText + "Processor");
+                        Console.WriteLine(ContentBuilder.Singleton.Build());
+
+                        asset.ChildNodes[2].InnerText = DateTime.Now.ToString();
+                    }
                 }
-                if (File.GetLastWriteTime(CLKWRK + asset.ChildNodes[0].InnerText) > Convert.ToDateTime(asset.ChildNodes[2].InnerText))
+                else
                 {
-                    string name = asset.ChildNodes[0].InnerText;
-                    string[] nameParts = name.Split('.');
-                    nameParts[nameParts.Length - 1] = "";
-                    name = String.Join("", nameParts);
-
-                    ContentBuilder.Singleton.Add(CLKWRK + asset.ChildNodes[0].InnerText, name, null, asset.ChildNodes[3].InnerText + "Processor");
-                    Console.WriteLine(ContentBuilder.Singleton.Build());
-
-                    asset.ChildNodes[2].InnerText = DateTime.Now.ToString();
+                    //Source file doesn't exist! :O.
+                    Console.WriteLine("Raw asset file not found: " + asset.ChildNodes[0].InnerText);
+                    if(File.Exists(CLKWRK + "Binaries/" + name + ".xnb"));
+                    {
+                        File.Delete(CLKWRK + "Binaries/" + name + ".xnb");
+                        Console.WriteLine("Removing " + name + ".xnb");
+                    }
+                    Console.WriteLine("Adding \""+name+"\" to be removed from assets.XML.");
+                    toBeRemoved.Add(asset);
+                    //Remove from XML if exists
+                    //Remove from Binaries if exists
                 }
                 ContentBuilder.Singleton.CopyContents(ContentBuilder.Singleton.buildDirectory + "bin/content/");
-                assetXml.Save(CLKWRK + "Data/assets.xml");
+                
             }
+            Console.WriteLine("Cleaning Data/assets.xml");
+            foreach(XmlNode node in toBeRemoved)
+            {
+                assetXml.DocumentElement.RemoveChild(node);
+            }
+            toBeRemoved.Clear();
+            assetXml.Save(CLKWRK + "Data/assets.xml");
+
             Console.WriteLine("Removing temp-folder.");
             if(Directory.Exists(CLKWRK + "build/"))
                 Directory.Delete(CLKWRK + "build/", true);
