@@ -47,7 +47,7 @@ namespace Clockwork_Age_Editor
 
                 foreach (GameObject gameObject in AssetManager.Singleton.m_GameObjects)
                 {
-                    if (gameObject.m_BoundingSphere.Intersects(ray) != null)
+                    if (gameObject.m_BoundingBox.Intersects(ray) != null)
                     {
                         temp = gameObject;
                     }

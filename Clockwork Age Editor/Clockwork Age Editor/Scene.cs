@@ -45,7 +45,7 @@ namespace Clockwork_Age_Editor
             camera = new Camera(new Vector3(0, 0, 40), Vector3.Zero, Vector3.Up, dimensions);
             this.Content = Content;
             grid = new SampleGrid();
-            grid.GridColor = Color.White;
+            grid.GridColor = Color.Gray;
             grid.GridScale = 5f;
             grid.GridSize = 32;
             // Set the grid to draw on the x/z plane around the origin

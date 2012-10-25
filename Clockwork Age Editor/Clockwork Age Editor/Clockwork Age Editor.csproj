@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundingBoxRenderer.cs" />
     <Compile Include="BoundingSphereRenderer.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Camera.cs" />

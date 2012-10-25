@@ -16,6 +16,7 @@ namespace Clockwork_Age_Editor
         public Model m_Model;
 
         public BoundingSphere m_BoundingSphere;
+        public BoundingBox m_BoundingBox;
 
         public string m_sName;
 
@@ -44,7 +45,7 @@ namespace Clockwork_Age_Editor
             BoundingBox box = UpdateBoundingBox(model, GetWorld());
             m_BoundingSphere.Center = (box.Min + box.Max) * 0.5f;
             m_BoundingSphere.Radius *= 0.008f;
-            
+            m_BoundingBox = box;
         }
 
         public void SetEffect(Effect effect)
@@ -81,7 +82,6 @@ namespace Clockwork_Age_Editor
                     else
                     {
                         m_Effect.CurrentTechnique = m_Effect.Techniques["DiffuseWithTexture"];
-                       
                         m_Effect.Parameters["ModelTexture"].SetValue(m_Texture);
                     }
                     m_Effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * GetWorld());
