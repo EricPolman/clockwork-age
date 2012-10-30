@@ -119,6 +119,12 @@ namespace Clockwork_Age_Editor
                     m_Camera.m_vTarget = Selector.Singleton.m_Selection.m_BoundingSphere.Center;
                     m_Camera.m_vPosition += addition;
                 }
+                else
+                {
+                    Vector3 addition = Vector3.Zero - m_Camera.m_vTarget;
+                    m_Camera.m_vTarget = Vector3.Zero;
+                    m_Camera.m_vPosition += addition;
+                }
             }
             #endregion
 

@@ -21,6 +21,7 @@ namespace Clockwork_Age_Editor
         ContentManager contentManager;
 
         public static TreeView g_SceneView;
+        public static TextBox g_ObjectTextBox;
 
         public Form1()
         {
@@ -37,7 +38,7 @@ namespace Clockwork_Age_Editor
         {
             base.OnLoad(e);
             g_SceneView = treeView2;
-            
+            g_ObjectTextBox = objectNameBox;
             LoadAssets();
             
         }
@@ -46,8 +47,11 @@ namespace Clockwork_Age_Editor
         {
             base.OnResize(e);
 
-            xnaViewControl1.Width = Width - xnaViewControl1.Location.X - 30;
+            xnaViewControl1.Width = Width - xnaViewControl1.Location.X - 30 - 180;
             xnaViewControl1.Height = Height - xnaViewControl1.Location.Y - 50;
+            objectLabel.Location = new System.Drawing.Point(xnaViewControl1.Width + xnaViewControl1.Location.X + 10, objectLabel.Location.Y);
+            objectNameBox.Location = new System.Drawing.Point(xnaViewControl1.Width + xnaViewControl1.Location.X + 10, objectNameBox.Location.Y);
+            
             Camera.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)xnaViewControl1.Width / (float)xnaViewControl1.Height, 0.001f, 1000);
             //if (xnaViewControl1.GraphicsDevice != null)
             //Selector.Singleton.m_Viewport = new Viewport(xnaViewControl1.Location.X, xnaViewControl1.Location.Y, xnaViewControl1.Width, xnaViewControl1.Height);
@@ -202,6 +206,17 @@ namespace Clockwork_Age_Editor
                         Selector.Singleton.m_Selection.m_Texture = contentManager.Load<Texture2D>(treeView1.SelectedNode.Parent.Text + "/" + treeView1.SelectedNode.Text);
                     }
                 }
+                else if (treeView1.SelectedNode.Parent.Text == "Prefabs")
+                {
+                    FileStream fs = new FileStream(AssetManager.CONTENT_FOLDER + "Binaries/Prefabs/" + treeView1.SelectedNode.Text, FileMode.Open, FileAccess.Read);
+                    StreamReader prefabReader = new StreamReader(fs);
+                    GameObject go = xnaViewControl1.m_Scene.AddModel(prefabReader.ReadLine());
+                    go.m_Texture = contentManager.Load<Texture2D>(AssetManager.CONTENT_FOLDER + "Binaries/Textures/" + prefabReader.ReadLine());
+                    go.SetName(treeView1.SelectedNode.Text.Replace(".prefab",""));
+                    
+                    prefabReader.Close();
+                    fs.Close();
+                }
             }
         }
 
@@ -216,6 +231,12 @@ namespace Clockwork_Age_Editor
             {
                 Selector.Singleton.m_Selection = (GameObject)treeView2.SelectedNode;
             }
+        }
+
+        private void objectNameBox_TextChanged(object sender, EventArgs e)
+        {
+            if (Selector.Singleton.m_Selection != null)
+                Selector.Singleton.m_Selection.SetName(objectNameBox.Text);
         }
     }
 }

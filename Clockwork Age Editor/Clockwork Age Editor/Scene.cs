@@ -48,7 +48,6 @@ namespace Clockwork_Age_Editor
             grid.GridColor = Color.Gray;
             grid.GridScale = 5f;
             grid.GridSize = 32;
-            // Set the grid to draw on the x/z plane around the origin
             grid.WorldMatrix = Matrix.Identity;
             grid.ProjectionMatrix = Camera.Projection;
             grid.LoadGraphicsContent(graphicsDevice);
@@ -114,11 +113,12 @@ namespace Clockwork_Age_Editor
             fs.Close();
         }
 
-        public void AddModel(string modelName)
+        public GameObject AddModel(string modelName)
         {
             GameObject go = new GameObject(modelName, Content.Load<Model>("Models/" + modelName), Content.Load<Effect>("Effects/Diffuse"), null, camera.m_vTarget);
             AssetManager.Singleton.m_GameObjects.Add(go);
             Form1.g_SceneView.Nodes.Add( go );
+            return go;
         }
     }
 }

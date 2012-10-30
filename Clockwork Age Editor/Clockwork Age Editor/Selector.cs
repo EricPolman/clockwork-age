@@ -23,7 +23,6 @@ namespace Clockwork_Age_Editor
         public Selector()
         {
             m_OldMouseState = Mouse.GetState();
-            
         }
 
         public void LoadContent(GraphicsDevice gfx)
@@ -34,13 +33,14 @@ namespace Clockwork_Age_Editor
 
         public void update(float deltaTime)
         {
+
             m_OldMouseState = m_MouseState;
             m_MouseState = Mouse.GetState();
             m_Viewport = m_GraphicsDevice.Viewport;
 
             if (m_MouseState.LeftButton == ButtonState.Pressed && m_OldMouseState.LeftButton == ButtonState.Released && !Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
             {
-                if (m_MouseState.X - XnaViewControl.g_LocationX < 0 || m_MouseState.Y - XnaViewControl.g_LocationY < 0) return;
+                if (m_MouseState.X - XnaViewControl.g_LocationX < 0 || m_MouseState.X - XnaViewControl.g_LocationX > m_Viewport.Width || m_MouseState.Y - XnaViewControl.g_LocationY < 0 || m_MouseState.Y - XnaViewControl.g_LocationY > m_Viewport.Height) return;
 
                 Ray ray = Camera.GetMouseRay(new Vector2(m_MouseState.X - XnaViewControl.g_LocationX, m_MouseState.Y - XnaViewControl.g_LocationY), m_Viewport);
                 GameObject temp = null;
@@ -54,6 +54,10 @@ namespace Clockwork_Age_Editor
                 }
 
                 m_Selection = temp;
+                if (m_Selection == null)
+                {
+                    Form1.g_ObjectTextBox.Text = null;
+                }
             }
         }
     }

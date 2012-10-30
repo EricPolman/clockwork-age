@@ -24,6 +24,7 @@ namespace Clockwork_Age_Editor
         float deltaTime = 0;
         DateTime startTime, prev;
         public TreeView m_SceneView;
+        public TextBox m_ObjectTextBox;
         
         public static int g_LocationX, g_LocationY;
 
@@ -38,6 +39,10 @@ namespace Clockwork_Age_Editor
 
         public override void Refresh()
         {
+            if(Selector.Singleton.m_Selection != null)
+                Form1.g_ObjectTextBox.Text = Selector.Singleton.m_Selection.Name;
+
+
             TimeSpan ts = System.DateTime.Now - startTime;
             deltaTime = (float)ts.TotalSeconds;
             startTime = System.DateTime.Now;

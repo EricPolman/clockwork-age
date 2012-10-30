@@ -38,6 +38,8 @@
             this.treeView2 = new System.Windows.Forms.TreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.objectLabel = new System.Windows.Forms.Label();
+            this.objectNameBox = new System.Windows.Forms.TextBox();
             this.xnaViewControl1 = new Clockwork_Age_Editor.XnaViewControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +50,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(984, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1163, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -126,6 +128,23 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Scene";
             // 
+            // objectLabel
+            // 
+            this.objectLabel.AutoSize = true;
+            this.objectLabel.Location = new System.Drawing.Point(979, 34);
+            this.objectLabel.Name = "objectLabel";
+            this.objectLabel.Size = new System.Drawing.Size(38, 13);
+            this.objectLabel.TabIndex = 8;
+            this.objectLabel.Text = "Object";
+            // 
+            // objectNameBox
+            // 
+            this.objectNameBox.Location = new System.Drawing.Point(979, 54);
+            this.objectNameBox.Name = "objectNameBox";
+            this.objectNameBox.Size = new System.Drawing.Size(170, 20);
+            this.objectNameBox.TabIndex = 9;
+            this.objectNameBox.TextChanged += new System.EventHandler(this.objectNameBox_TextChanged);
+            // 
             // xnaViewControl1
             // 
             this.xnaViewControl1.Location = new System.Drawing.Point(213, 35);
@@ -140,7 +159,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(984, 562);
+            this.ClientSize = new System.Drawing.Size(1163, 562);
+            this.Controls.Add(this.objectNameBox);
+            this.Controls.Add(this.objectLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.treeView2);
@@ -171,6 +192,8 @@
         private System.Windows.Forms.TreeView treeView2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label objectLabel;
+        private System.Windows.Forms.TextBox objectNameBox;
 
     }
 }

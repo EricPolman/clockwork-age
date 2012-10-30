@@ -36,7 +36,6 @@ namespace Clockwork_Age_Editor
             m_Effect = effect;
             m_BoundingSphere = model.Meshes[0].BoundingSphere;
 
-            
             worldRotation = Matrix.Identity;
             worldScale = Matrix.CreateScale(1);
             
@@ -130,7 +129,6 @@ namespace Clockwork_Age_Editor
                 }
             }
 
-            // Create and return bounding box
             return new BoundingBox(min, max);
         }
 
@@ -140,8 +138,14 @@ namespace Clockwork_Age_Editor
             exportData[0] = "Models/" + m_sName;
             exportData[1] = m_Effect.Name;
 
-
             return exportData;
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+            Text = name;
+            m_sName = name;
         }
     }
 }

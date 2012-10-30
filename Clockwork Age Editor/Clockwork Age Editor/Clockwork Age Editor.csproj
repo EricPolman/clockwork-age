@@ -66,7 +66,6 @@
     <Compile Include="CameraMan.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="SampleGrid.cs" />
-    <Compile Include="ISelectable.cs" />
     <Compile Include="AssetManager.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Scene.cs" />
